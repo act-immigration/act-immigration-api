@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_03_13_174325) do
+ActiveRecord::Schema[7.1].define(version: 2024_03_13_211018) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -51,7 +51,10 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_13_174325) do
     t.text "elaborate"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "contact_info_id", null: false
+    t.index ["contact_info_id"], name: "index_enquiries_on_contact_info_id"
   end
 
   add_foreign_key "appointments", "contact_infos"
+  add_foreign_key "enquiries", "contact_infos"
 end
