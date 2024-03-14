@@ -4,7 +4,7 @@ module Types
     field :id, ID, null: false
     field :name, String, null: false
     field :surname, String, null: false
-    field :phone_number, String, null: false
+    field :phonenumber, String, null: false
     field :email, String, null: false
     field :gender, String, null: true
     field :dob, String, null: true

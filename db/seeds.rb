@@ -19,14 +19,14 @@
 john_contact_info = ContactInfo.create!(
   name: "John",
   surname: "Doe",
-  phonenumber: "1234567890",
+  phone_number: "1234567890",
   email: "john.doe@example.com"
 )
 
 jane_contact_info = ContactInfo.create!(
   name: "Jane",
   surname: "Smith",
-  phonenumber: "0987654321",
+  phone_number: "0987654321",
   email: "jane.smith@gmail.com"
 )
 
@@ -34,7 +34,7 @@ jane_contact_info = ContactInfo.create!(
 Enquiry.create!(
   name: "John",
   surname: "Doe",
-  phonenumber: "1234567890",
+  phone_number: "1234567890",
   email: "john.doe@example.com",
   gender: "Male",
   dob: Date.new(1990, 1, 1),
@@ -52,7 +52,7 @@ Enquiry.create!(
 Enquiry.create!(
   name: "Jane",
   surname: "Smith",
-  phonenumber: "0987654321",
+  phone_number: "0987654321",
   email: "jane.smith@gmail.com",
   gender: "Female",
   dob: Date.new(1985, 5, 10),
