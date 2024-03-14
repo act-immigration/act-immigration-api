@@ -6,15 +6,16 @@ module Types
     field :surname, String, null: false
     field :phonenumber, String, null: false
     field :email, String, null: false
-    field :gender, String, null: true
-    field :dob, String, null: true
-    field :marital_status, String, null: true
-    field :residential_address, String, null: true
-    field :immigration_status, String, null: true
-    field :entry_date, String, null: true
-    field :passport_number, String, null: true
-    field :reference_number, String, null: true
+    field :gender, String, null: false
+    field :dob, GraphQL::Types::ISO8601Date, null: false
+    field :marital_status, String, null: false
+    field :residential_address, String, null: false
+    field :immigration_status, String, null: false
+    field :entry_date, GraphQL::Types::ISO8601Date, null: false
+    field :passport_number, String, null: false
+    field :reference_number, String, null: false
     field :service_type, String, null: false
-    field :elaborate, String, null: true
+    field :elaborate, String, null: false
+    field :contact_info_id, ID, null: false
   end
 end
