@@ -8,12 +8,9 @@ class ActApiSchema < GraphQL::Schema
   use GraphQL::Dataloader
 
   # GraphQL-Ruby calls this when something goes wrong while running a query:
-  def self.type_error(err, context)
-    super
-  end
 
   # Union and Interface Resolution
-  def self.resolve_type(abstract_type, obj, ctx)
+  def self.resolve_type(_abstract_type, obj, _ctx)
     case obj
     when Appointment
       Types::AppointmentType
@@ -30,13 +27,13 @@ class ActApiSchema < GraphQL::Schema
   # Relay-style Object Identification:
 
   # Return a string UUID for `object`
-  def self.id_from_object(object, type_definition, query_ctx)
+  def self.id_from_object(object, _type_definition, _query_ctx)
     # For example, use Rails' GlobalID library (https://github.com/rails/globalid):
     object.to_gid_param
   end
 
   # Given a string UUID, find the object
-  def self.object_from_id(global_id, query_ctx)
+  def self.object_from_id(global_id, _query_ctx)
     # For example, use Rails' GlobalID library (https://github.com/rails/globalid):
     GlobalID.find(global_id)
   end

@@ -1,3 +1,3 @@
 class Enquiry < ApplicationRecord
-    belongs_to :contact_info
+  belongs_to :contact_info
 end

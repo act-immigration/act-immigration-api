@@ -12,7 +12,20 @@ class EnquiriesControllerTest < ActionDispatch::IntegrationTest
 
   test "should create enquiry" do
     assert_difference("Enquiry.count") do
-      post enquiries_url, params: { enquiry: { dob: @enquiry.dob, elaborate: @enquiry.elaborate, email: @enquiry.email, entry_date: @enquiry.entry_date, gender: @enquiry.gender, immigration_status: @enquiry.immigration_status, marital_status: @enquiry.marital_status, name: @enquiry.name, passport_number: @enquiry.passport_number, phonenumber: @enquiry.phonenumber, reference_number: @enquiry.reference_number, residential_address: @enquiry.residential_address, service_type: @enquiry.service_type, surname: @enquiry.surname } }, as: :json
+      post enquiries_url,
+           params: { enquiry: { dob: @enquiry.dob,
+                                elaborate: @enquiry.elaborate,
+                                email: @enquiry.email,
+                                entry_date: @enquiry.entry_date,
+                                gender: @enquiry.gender,
+                                immigration_status: @enquiry.immigration_status,
+                                marital_status: @enquiry.marital_status,
+                                name: @enquiry.name,
+                                passport_number: @enquiry.passport_number,
+                                phonenumber: @enquiry.phonenumber,
+                                reference_number: @enquiry.reference_number,
+                                residential_address: @enquiry.residential_address,
+                                service_type: @enquiry.service_type, surname: @enquiry.surname } }, as: :json
     end
 
     assert_response :created
@@ -24,7 +37,21 @@ class EnquiriesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update enquiry" do
-    patch enquiry_url(@enquiry), params: { enquiry: { dob: @enquiry.dob, elaborate: @enquiry.elaborate, email: @enquiry.email, entry_date: @enquiry.entry_date, gender: @enquiry.gender, immigration_status: @enquiry.immigration_status, marital_status: @enquiry.marital_status, name: @enquiry.name, passport_number: @enquiry.passport_number, phonenumber: @enquiry.phonenumber, reference_number: @enquiry.reference_number, residential_address: @enquiry.residential_address, service_type: @enquiry.service_type, surname: @enquiry.surname } }, as: :json
+    patch enquiry_url(@enquiry),
+          params: { enquiry: { dob: @enquiry.dob,
+                               elaborate: @enquiry.elaborate,
+                               email: @enquiry.email,
+                               entry_date: @enquiry.entry_date,
+                               gender: @enquiry.gender,
+                               immigration_status: @enquiry.immigration_status,
+                               marital_status: @enquiry.marital_status,
+                               name: @enquiry.name,
+                               passport_number: @enquiry.passport_number,
+                               phonenumber: @enquiry.phonenumber,
+                               reference_number: @enquiry.reference_number,
+                               residential_address: @enquiry.residential_address,
+                               service_type: @enquiry.service_type,
+                               surname: @enquiry.surname } }, as: :json
     assert_response :success
   end
 

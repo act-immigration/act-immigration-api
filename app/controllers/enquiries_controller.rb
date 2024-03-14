@@ -1,5 +1,5 @@
 class EnquiriesController < ApplicationController
-  before_action :set_enquiry, only: %i[ show update destroy ]
+  before_action :set_enquiry, only: %i[show update destroy]
 
   # GET /enquiries
   def index
@@ -39,13 +39,15 @@ class EnquiriesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_enquiry
-      @enquiry = Enquiry.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def enquiry_params
-      params.require(:enquiry).permit(:name, :surname, :phonenumber, :email, :gender, :dob, :marital_status, :residential_address, :immigration_status, :entry_date, :passport_number, :reference_number, :service_type, :elaborate)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_enquiry
+    @enquiry = Enquiry.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def enquiry_params
+    params.require(:enquiry).permit(:name, :surname, :phonenumber, :email, :gender, :dob, :marital_status, :residential_address, :immigration_status, :entry_date, :passport_number,
+                                    :reference_number, :service_type, :elaborate)
+  end
 end
