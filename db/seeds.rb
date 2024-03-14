@@ -19,14 +19,14 @@
 john_contact_info = ContactInfo.create!(
   name: "John",
   surname: "Doe",
-  phone_number: "1234567890",
+  phonenumber: "1234567890",
   email: "john.doe@example.com"
 )
 
 jane_contact_info = ContactInfo.create!(
   name: "Jane",
   surname: "Smith",
-  phone_number: "0987654321",
+  phonenumber: "0987654321",
   email: "jane.smith@gmail.com"
 )
 
@@ -34,7 +34,7 @@ jane_contact_info = ContactInfo.create!(
 Enquiry.create!(
   name: "John",
   surname: "Doe",
-  phone_number: "1234567890",
+  phonenumber: "1234567890",
   email: "john.doe@example.com",
   gender: "Male",
   dob: Date.new(1990, 1, 1),
@@ -52,7 +52,7 @@ Enquiry.create!(
 Enquiry.create!(
   name: "Jane",
   surname: "Smith",
-  phone_number: "0987654321",
+  phonenumber: "0987654321",
   email: "jane.smith@gmail.com",
   gender: "Female",
   dob: Date.new(1985, 5, 10),
@@ -64,5 +64,21 @@ Enquiry.create!(
   reference_number: "REF456",
   service_type: "Immigration",
   elaborate: "Need help with immigration process",
+  contact_info: jane_contact_info
+)
+
+Appointment.create!(
+  appointment_date: DateTime.new(2024, 3, 15, 10, 0, 0),
+  service_type: "Legal",
+  venue: "Law Firm",
+  elaborate: "Meeting to discuss legal matters",
+  contact_info: john_contact_info
+)
+
+Appointment.create!(
+  appointment_date: DateTime.new(2024, 3, 20, 14, 0, 0),
+  service_type: "Consultation",
+  venue: "Consultancy Office",
+  elaborate: "Consultation session for immigration process",
   contact_info: jane_contact_info
 )
