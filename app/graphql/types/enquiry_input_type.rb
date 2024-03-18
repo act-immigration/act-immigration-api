@@ -6,15 +6,13 @@ module Types
     argument :email, String, required: true
     argument :gender, String, required: true
     argument :dob, GraphQL::Types::ISO8601Date, required: true
-    argument :marital_status, String, required: true
-    argument :residential_address, String, required: true
-    argument :immigration_status, String, required: true
-    argument :entry_date, GraphQL::Types::ISO8601Date, required: true
-    argument :passport_number, String, required: true
-    argument :reference_number, String, required: true
-    argument :service_type, String, required: true
+    argument :maritalStatus, String, required: true
+    argument :residentialAddress, String, required: true
+    argument :immigrationStatus, String, required: true
+    argument :entryDate, GraphQL::Types::ISO8601Date, required: true
+    argument :passportNumber, String, required: true
+    argument :referenceNumber, String, required: true
+    argument :serviceType, String, required: true
     argument :elaborate, String, required: true
-    argument :contact_info_id, ID, required: true
-    argument :documentUpload, [Types::FileType], required: false
   end
 end

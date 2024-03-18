@@ -7,13 +7,13 @@ class CreateEnquiries < ActiveRecord::Migration[7.1]
       t.string :email
       t.string :gender
       t.date :dob
-      t.string :marital_status
-      t.text :residential_address
-      t.string :immigration_status
-      t.date :entry_date
-      t.string :passport_number
-      t.string :reference_number
-      t.string :service_type
+      t.string :maritalStatus
+      t.text :residentialAddress
+      t.string :immigrationStatus
+      t.date :entryDate
+      t.string :passportNumber
+      t.string :referenceNumber
+      t.string :serviceType
       t.text :elaborate
 
       t.timestamps

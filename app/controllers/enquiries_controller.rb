@@ -47,7 +47,7 @@ class EnquiriesController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def enquiry_params
-    params.require(:enquiry).permit(:name, :surname, :phonenumber, :email, :gender, :dob, :marital_status, :residential_address, :immigration_status, :entry_date, :passport_number,
-                                    :reference_number, :service_type, :elaborate)
+    params.require(:enquiry).permit(:name, :surname, :phonenumber, :email, :gender, :dob, :maritalStatus, :residentialAddress, :immigrationStatus, :entryDate, :passportNumber,
+                                    :referenceNumber, :serviceType, :elaborate)
   end
 end

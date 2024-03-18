@@ -13,7 +13,7 @@ class AppointmentsControllerTest < ActionDispatch::IntegrationTest
   test "should create appointment" do
     assert_difference("Appointment.count") do
       post appointments_url,
-           params: { appointment: { appointment_date: @appointment.appointment_date,
+           params: { appointment: { appointmentDate: @appointment.appointmentDate,
                                     contact_info_id: @appointment.contact_info_id,
                                     elaborate: @appointment.elaborate,
                                     service_type: @appointment.service_type,
@@ -30,7 +30,7 @@ class AppointmentsControllerTest < ActionDispatch::IntegrationTest
 
   test "should update appointment" do
     patch appointment_url(@appointment),
-          params: { appointment: { appointment_date: @appointment.appointment_date,
+          params: { appointment: { appointmentDate: @appointment.appointmentDate,
                                    contact_info_id: @appointment.contact_info_id,
                                    elaborate: @appointment.elaborate,
                                    service_type: @appointment.service_type,
