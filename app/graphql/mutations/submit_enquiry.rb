@@ -1,6 +1,6 @@
 module Mutations
   class SubmitEnquiry < BaseMutation
-    argument :input, Types::EnquiryInputType, required: true
+    argument :input, Types::EnquiryInput, required: true
 
     field :enquiry, Types::EnquiryType, null: false
 

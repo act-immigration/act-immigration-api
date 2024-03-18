@@ -1,19 +1,24 @@
+# frozen_string_literal: true
+
 module Types
   class EnquiryType < Types::BaseObject
     field :id, ID, null: false
-    field :name, String, null: false
-    field :surname, String, null: false
-    field :phonenumber, String, null: false
-    field :email, String, null: false
-    field :gender, String, null: false
-    field :dob, GraphQL::Types::ISO8601Date, null: false
-    field :maritalStatus, String, null: false
-    field :residentialAddress, String, null: false
-    field :immigrationStatus, String, null: false
-    field :entryDate, GraphQL::Types::ISO8601Date, null: false
-    field :passportNumber, String, null: false
-    field :referenceNumber, String, null: false
-    field :serviceType, String, null: false
-    field :elaborate, String, null: false
+    field :name, String
+    field :surname, String
+    field :phonenumber, String
+    field :email, String
+    field :gender, String
+    field :dob, GraphQL::Types::ISO8601Date
+    field :maritalStatus, String
+    field :residentialAddress, String
+    field :immigrationStatus, String
+    field :entryDate, GraphQL::Types::ISO8601Date
+    field :passportNumber, String
+    field :referenceNumber, String
+    field :serviceType, String
+    field :elaborate, String
+    field :created_at, GraphQL::Types::ISO8601DateTime, null: false
+    field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
+    field :contact_info_id, Integer, null: false
   end
 end
