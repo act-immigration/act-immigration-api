@@ -15,5 +15,6 @@ module Types
     argument :service_type, String, required: true
     argument :elaborate, String, required: true
     argument :contact_info_id, ID, required: true
+    argument :documentUpload, [Types::FileType], required: false
   end
 end

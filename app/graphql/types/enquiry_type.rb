@@ -1,4 +1,3 @@
-# app/graphql/types/enquiry_type.rb
 module Types
   class EnquiryType < Types::BaseObject
     field :id, ID, null: false
