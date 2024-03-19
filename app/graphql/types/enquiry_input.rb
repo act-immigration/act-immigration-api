@@ -14,6 +14,8 @@ module Types
     argument :referenceNumber, String, required: true
     argument :serviceType, String, required: true
     argument :elaborate, String, required: true
-    argument :contact_info_id, String, required: false
+    argument :contact_info_id, ID, required: false
+    argument :contact_info_email, String, required: false
+    argument :contact_info, Types::ContactInfoInput, required: true
   end
 end

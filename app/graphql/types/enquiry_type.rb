@@ -19,6 +19,6 @@ module Types
     field :elaborate, String
     field :created_at, GraphQL::Types::ISO8601DateTime, null: false
     field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
-    field :contact_info_id, Integer, null: true
+    field :contact_info, Types::ContactInfoType, null: true
   end
 end
