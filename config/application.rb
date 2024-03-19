@@ -17,6 +17,7 @@ module ActApi
     config.autoload_lib(ignore: %w(assets tasks))
     # Configuration for the application, engines, and railties goes here.
     #
+    require "sprockets/railtie"
     # These settings can be overridden in specific environments using the files
     # in config/environments, which are processed later.
     #
