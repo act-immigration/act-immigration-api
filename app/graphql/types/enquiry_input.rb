@@ -10,12 +10,12 @@ module Types
     argument :residentialAddress, String, required: true
     argument :immigrationStatus, String, required: true
     argument :entryDate, String, required: true
-    argument :passportNumber, String, required: true
+    argument :passportNumber, String, required: false
     argument :referenceNumber, String, required: true
     argument :serviceType, String, required: true
     argument :elaborate, String, required: true
     argument :contact_info_id, ID, required: false
     argument :contact_info_email, String, required: false
-    argument :contact_info, Types::ContactInfoInput, required: true
+    argument :contact_info, Types::ContactInfoInput, required: false
   end
 end

@@ -14,8 +14,13 @@ class EnquiriesController < ApplicationController
   end
 
   # POST /enquiries
+  # POST /enquiries
   def create
-    @enquiry = Enquiry.new(enquiry_params)
+    # Check if the contact_info exists or create a new one
+    contact_info = ContactInfo.find_or_create_by(contact_info_params)
+
+    # Associate the enquiry with the contact_info
+    @enquiry = contact_info.enquiries.new(enquiry_params)
 
     if @enquiry.save
       render json: @enquiry, status: :created, location: @enquiry
@@ -46,8 +51,12 @@ class EnquiriesController < ApplicationController
   end
 
   # Only allow a list of trusted parameters through.
-  def enquiry_params
-    params.require(:enquiry).permit(:name, :surname, :phonenumber, :email, :gender, :dob, :maritalStatus, :residentialAddress, :immigrationStatus, :entryDate, :passportNumber,
-                                    :referenceNumber, :serviceType, :elaborate)
+def enquiry_params
+  params.require(:enquiry).permit(:name, :surname, :phonenumber, :email, :gender, :dob, :maritalStatus, :residentialAddress, :immigrationStatus, :entryDate, :passportNumber, :referenceNumber,
+                                    :serviceType, :elaborate)
+end
+
+def contact_info_params
+    params.require(:contact_info).permit(:name, :surname, :phonenumber, :email)
   end
 end

@@ -8,13 +8,13 @@ class CreateEnquiries < ActiveRecord::Migration[7.1]
       t.string :gender
       t.date :dob
       t.string :maritalStatus
-      t.text :residentialAddress
+      t.string :residentialAddress
       t.string :immigrationStatus
       t.date :entryDate
       t.string :passportNumber
       t.string :referenceNumber
       t.string :serviceType
-      t.text :elaborate
+      t.string :elaborate
 
       t.timestamps
     end

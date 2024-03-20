@@ -18,7 +18,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_13_211018) do
     t.datetime "appointmentDate"
     t.string "serviceType"
     t.string "venue"
-    t.text "elaborate"
+    t.string "elaborate"
     t.bigint "contact_info_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -42,13 +42,13 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_13_211018) do
     t.string "gender"
     t.date "dob"
     t.string "maritalStatus"
-    t.text "residentialAddress"
+    t.string "residentialAddress"
     t.string "immigrationStatus"
     t.date "entryDate"
     t.string "passportNumber"
     t.string "referenceNumber"
     t.string "serviceType"
-    t.text "elaborate"
+    t.string "elaborate"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "contact_info_id", null: false

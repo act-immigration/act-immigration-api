@@ -4,7 +4,7 @@ class CreateAppointments < ActiveRecord::Migration[7.1]
       t.datetime :appointmentDate
       t.string :serviceType
       t.string :venue
-      t.text :elaborate
+      t.string :elaborate
       t.references :contact_info, null: false, foreign_key: true
 
       t.timestamps
