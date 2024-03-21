@@ -13,17 +13,23 @@ module Mutations
         ci.phonenumber = contact_info_input[:phonenumber]
       end
 
+      # Handle file uploads
+      document_uploads = input[:document_upload]
+
       # Build Enquiry object with merged attributes
       enquiry = Enquiry.new(
-        input.to_h.except(:contact_info).merge(contact_info: contact_info)
+        input.to_h.except(:contact_info, :document_upload).merge(contact_info:)
       )
 
-      # Validate and save Enquiry object
-      if enquiry.save
-        { enquiry: enquiry }
-      else
-        raise GraphQL::ExecutionError, enquiry.errors.full_messages.join(", ")
+      # Attach document uploads to the enquiry
+      document_uploads&.each do |document_upload|
+        enquiry.document_uploads.attach(document_upload)
       end
+
+      # Validate and save Enquiry object
+      raise GraphQL::ExecutionError, enquiry.errors.full_messages.join(", ") unless enquiry.save
+
+      { enquiry: }
     end
   end
 end

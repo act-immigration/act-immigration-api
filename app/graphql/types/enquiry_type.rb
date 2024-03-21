@@ -17,6 +17,7 @@ module Types
     field :referenceNumber, String
     field :serviceType, String
     field :elaborate, String
+    field :document_upload, String, null: true
     field :created_at, GraphQL::Types::ISO8601DateTime, null: false
     field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
     field :contact_info, Types::ContactInfoType, null: true
