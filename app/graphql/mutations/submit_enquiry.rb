@@ -18,7 +18,7 @@ module Mutations
 
       # Build Enquiry object with merged attributes
       enquiry = Enquiry.new(
-        input.to_h.except(:contact_info, :document_upload).merge(contact_info:)
+        input.to_h.except(:contact_info, :document_upload).merge(contact_info: contact_info)
       )
 
       # Attach document uploads to the enquiry
@@ -27,9 +27,11 @@ module Mutations
       end
 
       # Validate and save Enquiry object
-      raise GraphQL::ExecutionError, enquiry.errors.full_messages.join(", ") unless enquiry.save
+      unless enquiry.save
+        raise GraphQL::ExecutionError, enquiry.errors.full_messages.join(", ")
+      end
 
-      { enquiry: }
+      { enquiry: enquiry }
     end
   end
 end

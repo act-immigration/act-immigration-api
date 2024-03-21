@@ -14,13 +14,18 @@ class EnquiriesController < ApplicationController
   end
 
   # POST /enquiries
-  # POST /enquiries
   def create
+    # Parse the contact_info parameter from JSON string to a Ruby hash
+    contact_info_data = JSON.parse(params[:enquiry][:contact_info])
+
     # Check if the contact_info exists or create a new one
-    contact_info = ContactInfo.find_or_create_by(contact_info_params)
+    contact_info = ContactInfo.find_or_create_by(contact_info_data)
 
     # Associate the enquiry with the contact_info
-    @enquiry = contact_info.enquiries.new(enquiry_params)
+    @enquiry = contact_info.enquiries.new(enquiry_params.except(:document_upload))
+
+    # Handle file upload
+    @enquiry.document_upload.attach(enquiry_params[:document_upload]) if enquiry_params[:document_upload].present?
 
     if @enquiry.save
       render json: @enquiry, status: :created, location: @enquiry
@@ -54,9 +59,5 @@ class EnquiriesController < ApplicationController
   def enquiry_params
     params.require(:enquiry).permit(:name, :surname, :phonenumber, :email, :gender, :dob, :maritalStatus, :residentialAddress, :immigrationStatus, :entryDate, :passportNumber, :referenceNumber,
                                     :serviceType, :elaborate, :document_upload)
-  end
-
-  def contact_info_params
-    params.require(:contact_info).permit(:name, :surname, :phonenumber, :email)
   end
 end
