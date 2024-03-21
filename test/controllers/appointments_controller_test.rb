@@ -12,7 +12,12 @@ class AppointmentsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create appointment" do
     assert_difference("Appointment.count") do
-      post appointments_url, params: { appointment: { appointment_date: @appointment.appointment_date, contact_info_id: @appointment.contact_info_id, elaborate: @appointment.elaborate, service_type: @appointment.service_type, venue: @appointment.venue } }, as: :json
+      post appointments_url,
+           params: { appointment: { appointmentDate: @appointment.appointmentDate,
+                                    contact_info_id: @appointment.contact_info_id,
+                                    elaborate: @appointment.elaborate,
+                                    service_type: @appointment.service_type,
+                                    venue: @appointment.venue } }, as: :json
     end
 
     assert_response :created
@@ -24,7 +29,12 @@ class AppointmentsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update appointment" do
-    patch appointment_url(@appointment), params: { appointment: { appointment_date: @appointment.appointment_date, contact_info_id: @appointment.contact_info_id, elaborate: @appointment.elaborate, service_type: @appointment.service_type, venue: @appointment.venue } }, as: :json
+    patch appointment_url(@appointment),
+          params: { appointment: { appointmentDate: @appointment.appointmentDate,
+                                   contact_info_id: @appointment.contact_info_id,
+                                   elaborate: @appointment.elaborate,
+                                   service_type: @appointment.service_type,
+                                   venue: @appointment.venue } }, as: :json
     assert_response :success
   end
 

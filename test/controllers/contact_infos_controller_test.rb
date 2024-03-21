@@ -24,7 +24,8 @@ class ContactInfosControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update contact_info" do
-    patch contact_info_url(@contact_info), params: { contact_info: { email: @contact_info.email, name: @contact_info.name, phonenumber: @contact_info.phonenumber, surname: @contact_info.surname } }, as: :json
+    patch contact_info_url(@contact_info),
+          params: { contact_info: { email: @contact_info.email, name: @contact_info.name, phonenumber: @contact_info.phonenumber, surname: @contact_info.surname } }, as: :json
     assert_response :success
   end
 

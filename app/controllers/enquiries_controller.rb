@@ -1,5 +1,5 @@
 class EnquiriesController < ApplicationController
-  before_action :set_enquiry, only: %i[ show update destroy ]
+  before_action :set_enquiry, only: %i[show update destroy]
 
   # GET /enquiries
   def index
@@ -15,7 +15,17 @@ class EnquiriesController < ApplicationController
 
   # POST /enquiries
   def create
-    @enquiry = Enquiry.new(enquiry_params)
+    # Parse the contact_info parameter from JSON string to a Ruby hash
+    contact_info_data = JSON.parse(params[:enquiry][:contact_info])
+
+    # Check if the contact_info exists or create a new one
+    contact_info = ContactInfo.find_or_create_by(contact_info_data)
+
+    # Associate the enquiry with the contact_info
+    @enquiry = contact_info.enquiries.new(enquiry_params.except(:document_upload))
+
+    # Handle file upload
+    @enquiry.document_upload.attach(enquiry_params[:document_upload]) if enquiry_params[:document_upload].present?
 
     if @enquiry.save
       render json: @enquiry, status: :created, location: @enquiry
@@ -39,13 +49,15 @@ class EnquiriesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_enquiry
-      @enquiry = Enquiry.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def enquiry_params
-      params.require(:enquiry).permit(:name, :surname, :phonenumber, :email, :gender, :dob, :marital_status, :residential_address, :immigration_status, :entry_date, :passport_number, :reference_number, :service_type, :elaborate)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_enquiry
+    @enquiry = Enquiry.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def enquiry_params
+    params.require(:enquiry).permit(:name, :surname, :phonenumber, :email, :gender, :dob, :maritalStatus, :residentialAddress, :immigrationStatus, :entryDate, :passportNumber, :referenceNumber,
+                                    :serviceType, :elaborate, :document_upload)
+  end
 end

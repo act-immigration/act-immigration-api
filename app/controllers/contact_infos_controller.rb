@@ -1,5 +1,5 @@
 class ContactInfosController < ApplicationController
-  before_action :set_contact_info, only: %i[ show update destroy ]
+  before_action :set_contact_info, only: %i[show update destroy]
 
   # GET /contact_infos
   def index
@@ -39,13 +39,14 @@ class ContactInfosController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_contact_info
-      @contact_info = ContactInfo.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def contact_info_params
-      params.require(:contact_info).permit(:name, :surname, :phonenumber, :email)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_contact_info
+    @contact_info = ContactInfo.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def contact_info_params
+    params.require(:contact_info).permit(:name, :surname, :phonenumber, :email)
+  end
 end

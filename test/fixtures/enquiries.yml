@@ -7,13 +7,13 @@ one:
   email: MyString
   gender: MyString
   dob: 2024-03-13
-  marital_status: MyString
-  residential_address: MyText
-  immigration_status: MyString
-  entry_date: 2024-03-13
-  passport_number: MyString
-  reference_number: MyString
-  service_type: MyString
+  maritalStatus: MyString
+  residentialAddress: MyText
+  immigrationStatus: MyString
+  entryDate: 2024-03-13
+  passportNumber: MyString
+  referenceNumber: MyString
+  serviceType: MyString
   elaborate: MyText
 
 two:
@@ -23,11 +23,11 @@ two:
   email: MyString
   gender: MyString
   dob: 2024-03-13
-  marital_status: MyString
-  residential_address: MyText
-  immigration_status: MyString
-  entry_date: 2024-03-13
-  passport_number: MyString
-  reference_number: MyString
-  service_type: MyString
+  maritalStatus: MyString
+  residentialAddress: MyText
+  immigrationStatus: MyString
+  entryDate: 2024-03-13
+  passportNumber: MyString
+  referenceNumber: MyString
+  serviceType: MyString
   elaborate: MyText
