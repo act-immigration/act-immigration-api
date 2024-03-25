@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_03_21_191812) do
+ActiveRecord::Schema[7.1].define(version: 2024_03_25_084701) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -46,10 +46,13 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_21_191812) do
     t.datetime "appointmentDate"
     t.string "serviceType"
     t.string "venue"
-    t.string "elaborate"
     t.bigint "contact_info_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "name"
+    t.string "surname"
+    t.string "phonenumber"
+    t.string "email"
     t.index ["contact_info_id"], name: "index_appointments_on_contact_info_id"
   end
 
