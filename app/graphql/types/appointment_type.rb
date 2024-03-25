@@ -7,7 +7,7 @@ module Types
     field :phonenumber, String, null: false
     field :email, String, null: false
     field :appointmentDate, String, null: false
-    field :AppointmentType, String, null: false
+    field :appointmentType, String, null: false
     field :serviceType, String, null: false
     field :venue, String, null: false
   end
