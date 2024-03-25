@@ -4,7 +4,6 @@ class AppointmentsController < ApplicationController
   # GET /appointments
   def index
     @appointments = Appointment.all
-
     render json: @appointments
   end
 
@@ -14,8 +13,17 @@ class AppointmentsController < ApplicationController
   end
 
   # POST /appointments
+  # POST /appointments
   def create
-    @appointment = Appointment.new(appointment_params)
+    # Find or create a ContactInfo based on the email
+    contact_info = ContactInfo.find_or_create_by(email: params[:email]) do |contact|
+      contact.name = params[:name]
+      contact.surname = params[:surname]
+      contact.phonenumber = params[:phonenumber]
+    end
+
+    # Build the appointment with the provided parameters and associate it with the contact_info
+    @appointment = contact_info.appointments.new(appointment_params)
 
     if @appointment.save
       render json: @appointment, status: :created, location: @appointment
@@ -47,6 +55,6 @@ class AppointmentsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def appointment_params
-    params.require(:appointment).permit(:appointmentDate, :service_type, :venue, :elaborate, :contact_info_id)
+    params.require(:appointment).permit(:appointmentDate, :serviceType, :venue, :name, :surname, :phonenumber, :email)
   end
 end

@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
   mount GraphiQL::Rails::Engine, at: "/graphiql", graphql_path: "/graphql" if Rails.env.development?
   post "/graphql", to: "graphql#execute"
-  post "/", to: "enquiries#create"
+  # post "/", to: "enquiries#create"
+  post "/enquiries", to: "enquiries#create"
+  post "/appointments", to: "appointments#create"
   resources :appointments
   resources :contact_infos
   resources :enquiries

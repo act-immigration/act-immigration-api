@@ -1,5 +1,6 @@
 class ContactInfo < ApplicationRecord
   has_many :enquiries
+  has_many :appointments
   # Validations
   validates :name, presence: true
   validates :surname, presence: true
