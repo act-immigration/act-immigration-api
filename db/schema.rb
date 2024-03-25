@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_03_25_084701) do
+ActiveRecord::Schema[7.1].define(version: 2024_03_25_101954) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -53,6 +53,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_25_084701) do
     t.string "surname"
     t.string "phonenumber"
     t.string "email"
+    t.string "appointmentType"
     t.index ["contact_info_id"], name: "index_appointments_on_contact_info_id"
   end
 
