@@ -9,6 +9,7 @@ Bundler.require(*Rails.groups)
 
 module ActApi
   class Application < Rails::Application
+    config.api_only = true
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.1
 
@@ -31,7 +32,6 @@ module ActApi
     config.session_store :cookie_store, key: 'act-immigration-session'
     config.middleware.use ActionDispatch::Cookies
     config.middleware.use ActionDispatch::Session::CookieStore
-
-    config.api_only = false
+    config.middleware.use ActionDispatch::Flash
   end
 end

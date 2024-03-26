@@ -1,12 +1,11 @@
 class RegistrationsController < ApplicationController
   def create
     user = User.new(user_params)
+    user.role = "client"
     if user.save
-      # Handle successful signup
-      redirect_to root_path, notice: 'User created successfully'
+      render json: { message: 'User created successfully', user: user }, status: :created
     else
-      # Handle signup failure
-      render :new
+      render json: { errors: user.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
