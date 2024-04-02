@@ -264,6 +264,7 @@ PLATFORMS
 
 DEPENDENCIES
   activerecord
+  bcrypt
   bootsnap
   carrierwave (~> 2.2)
   debug
