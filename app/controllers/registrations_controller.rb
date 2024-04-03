@@ -3,7 +3,7 @@ class RegistrationsController < ApplicationController
     user = User.new(user_params)
     user.role = "client"
     if user.save
-      render json: { message: 'User created successfully', user: user }, status: :created
+      render json: { message: 'User created successfully', user: }, status: :created
     else
       render json: { errors: user.errors.full_messages }, status: :unprocessable_entity
     end

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# A simple GraphQL schema which is well described.
+
 module Types
   class QueryType < Types::BaseObject
     # Fetches an object given its ID.
@@ -32,6 +34,15 @@ module Types
 
     def enquiries
       Enquiry.all
+    end
+
+    # Fetch a single appointment by ID
+    field :appointment, Types::AppointmentType, null: true, description: "Fetch a single appointment by ID" do
+      argument :id, ID, required: true, description: "ID of the appointment"
+    end
+
+    def appointment(id:)
+      Appointment.find_by(id: id)
     end
 
     field :currentUser, Types::UserType, null: true
