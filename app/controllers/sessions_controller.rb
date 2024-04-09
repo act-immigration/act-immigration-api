@@ -1,17 +1,20 @@
 class SessionsController < ApplicationController
   def new
   end
+
   def create
     user = User.find_by(email: params[:user][:email])
 
     if user && user.valid_password?(params[:user][:password])
+      session[:user_id] = user.id # Set session user_id here
+
       if user.role == "admin"
         # Admin login
-        render json: { user: user, role: "admin" }, status: :ok
+        render json: { user:, role: "admin" }, status: :ok
         Rails.logger.info("Admin #{user.email} logged in")
       else
         # Client login
-        render json: { user: user, role: "client" }, status: :ok
+        render json: { user:, role: "client" }, status: :ok
         Rails.logger.info("Client #{user.email} logged in")
       end
     else
