@@ -8,11 +8,11 @@ class SessionsController < ApplicationController
       if user.role == "admin"
         # Admin login
         render json: { user: user, role: "admin" }, status: :ok
-        log_user_activity(user, "Admin #{user.email} logged in")
+        log_user_activity("Admin #{user.email} logged in", user)
       else
         # Client login
         render json: { user: user, role: "client" }, status: :ok
-        log_user_activity(user, "Client #{user.email} logged in")
+        log_user_activity("Client #{user.email} logged in", user)
       end
     else
       render json: { error: 'Invalid email or password' }, status: :unauthorized
@@ -26,7 +26,7 @@ class SessionsController < ApplicationController
 
   private
 
-  def log_user_activity(message)
+  def log_user_activity(message, _user)
     Rails.logger.info(message)
   end
 end

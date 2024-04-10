@@ -54,7 +54,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_04_092042) do
     t.string "phonenumber"
     t.string "email"
     t.string "appointmentType"
-    t.bigint "user_id", null: false
+    t.bigint "user_id"
     t.index ["contact_info_id"], name: "index_appointments_on_contact_info_id"
     t.index ["user_id"], name: "index_appointments_on_user_id"
   end
