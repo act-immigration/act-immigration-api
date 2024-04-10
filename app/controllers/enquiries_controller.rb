@@ -28,7 +28,7 @@ class EnquiriesController < ApplicationController
   else
     render json: @enquiry.errors, status: :unprocessable_entity
   end
-end
+  end
 
   # PATCH/PUT /enquiries/1
   def update
