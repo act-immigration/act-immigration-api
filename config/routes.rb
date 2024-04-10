@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   post "/graphql", to: "graphql#execute"
   post "/enquiries", to: "enquiries#create"
   post "/appointments", to: "appointments#create"
+  get '/enquiries_by_email/:email', to: 'enquiries#by_email', constraints: { email: /[^\/]+/ }
   resources :appointments
   resources :contact_infos
   resources :enquiries
