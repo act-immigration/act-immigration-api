@@ -86,7 +86,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_04_092042) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "contact_info_id", null: false
-    t.bigint "user_id", null: false
+    t.bigint "user_id"
     t.index ["contact_info_id"], name: "index_enquiries_on_contact_info_id"
     t.index ["user_id"], name: "index_enquiries_on_user_id"
   end
