@@ -1,5 +1,6 @@
 class EnquiriesController < ApplicationController
   before_action :set_enquiry, only: %i[show update destroy]
+
   # GET /enquiries
   def index
     @enquiries = Enquiry.all
@@ -14,16 +15,19 @@ class EnquiriesController < ApplicationController
 
   # POST /enquiries
   def create
-    # Parse the contact_info parameter from JSON string to a Ruby hash
-    contact_info_data = JSON.parse(params[:enquiry][:contact_info])
-    # Check if the contact_info exists or create a new one
-    contact_info = ContactInfo.find_or_create_by(contact_info_data)
-    # Set the user_id to nil if there is no logged-in user
-    user_id = current_user ? current_user.id : nil
-    # Associate the enquiry with the contact_info and set the user_id
-    @enquiry = contact_info.enquiries.new(enquiry_params.except(:document_upload).merge(user_id:))
+    # Find or create a ContactInfo based on the email
+    contact_info = ContactInfo.find_or_create_by(email: params[:enquiry][:email]) do |contact|
+      contact.name = params[:enquiry][:name]
+      contact.surname = params[:enquiry][:surname]
+      contact.phonenumber = params[:enquiry][:phonenumber]
+    end
+
+    # Build the enquiry with the provided parameters and associate it with the contact_info
+    @enquiry = contact_info.enquiries.new(enquiry_params.except(:document_upload))
+
     # Handle file upload
     @enquiry.document_upload.attach(enquiry_params[:document_upload]) if enquiry_params[:document_upload].present?
+
     if @enquiry.save
       render json: @enquiry, status: :created, location: @enquiry
     else
@@ -75,16 +79,3 @@ class EnquiriesController < ApplicationController
                                     :serviceType, :elaborate, :document_upload)
   end
 end
-
-# def show_by_email
-#   # Find the ContactInfo associated with the current user's email
-#   contact_info = ContactInfo.find_by(email: current_user.email)
-
-#   # If the ContactInfo exists, fetch all enquiries associated with it
-#   if contact_info
-#     @enquiries = contact_info.enquiries
-#     render json: @enquiries
-#   else
-#     render json: { error: 'No enquiries found for this email' }, status: :not_found
-#   end
-#  end

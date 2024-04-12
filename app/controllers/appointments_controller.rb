@@ -10,7 +10,6 @@ class AppointmentsController < ApplicationController
   def show
     render json: @appointment
   end
-
   # POST /appointments
   # POST /appointments
 def create
@@ -20,7 +19,6 @@ def create
     contact.surname = params[:appointment][:contact_info][:surname]
     contact.phonenumber = params[:appointment][:contact_info][:phonenumber]
   end
-
   # Build the appointment with the provided parameters and associate it with the contact_info
   @appointment = contact_info.appointments.new(appointment_params)
 
