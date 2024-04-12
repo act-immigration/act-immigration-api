@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   post "/appointments", to: "appointments#create"
   get '/enquiries_by_email/:email', to: 'enquiries#by_email', constraints: { email: /[^\/]+/ }
   get '/appointments_by_email/:email', to: 'appointments#by_email', constraints: { email: /[^\/]+/ }
+  get '/profile/:email', to: 'users#show_profile', constraints: { email: /[^\/]+/ }
   resources :appointments
   resources :contact_infos
   resources :enquiries

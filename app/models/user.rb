@@ -6,4 +6,5 @@ class User < ApplicationRecord
 
   has_many :enquiries
   has_many :appointments
+  has_one :profile
 end
