@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_04_12_154625) do
+ActiveRecord::Schema[7.1].define(version: 2024_04_12_191034) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -66,6 +66,18 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_12_154625) do
     t.string "email"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "documents", force: :cascade do |t|
+    t.string "name"
+    t.string "file_path"
+    t.datetime "upload_date"
+    t.string "documentable_type", null: false
+    t.bigint "documentable_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "user_email"
+    t.index ["documentable_type", "documentable_id"], name: "index_documents_on_documentable"
   end
 
   create_table "enquiries", force: :cascade do |t|

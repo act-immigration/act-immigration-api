@@ -15,8 +15,12 @@ class EnquiriesController < ApplicationController
       render json: @enquiries
     else
       @enquiry = Enquiry.find(params[:id])
-      render json: @enquiry
+      if @enquiry.document.attached?
+      render json: @enquiry.as_json.merge(document_url: url_for(@document.document))
+    else
+      render json: @document_url.as_json.merge(document_url: nil)
     end
+  end
   end
 
   # POST /enquiries
@@ -27,7 +31,6 @@ class EnquiriesController < ApplicationController
       contact.surname = params[:enquiry][:surname]
       contact.phonenumber = params[:enquiry][:phonenumber]
     end
-
     # Build the enquiry with the provided parameters and associate it with the contact_info
     @enquiry = contact_info.enquiries.new(enquiry_params.except(:document_upload))
 
@@ -83,5 +86,25 @@ class EnquiriesController < ApplicationController
   def enquiry_params
     params.require(:enquiry).permit(:name, :surname, :phonenumber, :email, :gender, :dob, :maritalStatus, :residentialAddress, :immigrationStatus, :entryDate, :passportNumber, :referenceNumber,
                                     :serviceType, :elaborate, :document_upload)
+  end
+
+  def enquiry_with_documents(enquiry)
+    if enquiry&.document_upload&.attached?
+      redirect_to rails_blob_path(enquiry.document_upload, disposition: 'attachment')
+    elsif enquiry
+      render json: { error: 'Document not found for this enquiry' }, status: :not_found
+    else
+      render json: { error: 'Enquiry not found' }, status: :not_found
+    end
+  end
+
+  def documents_by_email
+    user = User.find_by(email: params[:email])
+    if user
+      documents = Document.where(user_id: user.id)
+      render json: documents
+    else
+      render json: { error: 'User not found' }, status: :not_found
+    end
   end
 end
