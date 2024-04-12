@@ -2,12 +2,13 @@ class UsersController < ApplicationController
   before_action :authenticate_user!
 
   def show_profile
-    user = User.find_by(email: params[:email])
+    user = current_user
+    profile = user.profile
 
-    if user
-      render json: { user: user }, status: :ok
+    if profile
+      render json: { user: user, profile: profile }, status: :ok
     else
-      render json: { error: 'User not found' }, status: :not_found
+      render json: { error: 'Profile not found' }, status: :not_found
     end
   end
 end
