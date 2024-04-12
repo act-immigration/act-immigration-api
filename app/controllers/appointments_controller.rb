@@ -10,24 +10,24 @@ class AppointmentsController < ApplicationController
   def show
     render json: @appointment
   end
-  # POST /appointments
-  # POST /appointments
-def create
-  # Find or create a ContactInfo based on the email
-  contact_info = ContactInfo.find_or_create_by(email: params[:appointment][:contact_info][:email]) do |contact|
-    contact.name = params[:appointment][:contact_info][:name]
-    contact.surname = params[:appointment][:contact_info][:surname]
-    contact.phonenumber = params[:appointment][:contact_info][:phonenumber]
-  end
-  # Build the appointment with the provided parameters and associate it with the contact_info
-  @appointment = contact_info.appointments.new(appointment_params)
 
-  if @appointment.save
-    render json: @appointment, status: :created, location: @appointment
-  else
-    render json: @appointment.errors, status: :unprocessable_entity
+  # POST /appointments
+  def create
+    # Find or create a ContactInfo based on the email
+    contact_info = ContactInfo.find_or_create_by(email: params[:appointment][:contact_info][:email]) do |contact|
+      contact.name = params[:appointment][:contact_info][:name]
+      contact.surname = params[:appointment][:contact_info][:surname]
+      contact.phonenumber = params[:appointment][:contact_info][:phonenumber]
+    end
+    # Build the appointment with the provided parameters and associate it with the contact_info
+    @appointment = contact_info.appointments.new(appointment_params)
+
+    if @appointment.save
+      render json: @appointment, status: :created, location: @appointment
+    else
+      render json: @appointment.errors, status: :unprocessable_entity
+    end
   end
-end
 
   # PATCH/PUT /appointments/1
   def update
@@ -41,6 +41,11 @@ end
   # DELETE /appointments/1
   def destroy
     @appointment.destroy!
+  end
+
+  def by_email
+    @appointments = Appointment.where(email: params[:email])
+    render json: @appointments
   end
 
   private

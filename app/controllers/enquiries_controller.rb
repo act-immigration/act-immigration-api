@@ -10,7 +10,13 @@ class EnquiriesController < ApplicationController
 
   # GET /enquiries/1
   def show
-    render json: @enquiry
+    if params[:id] == 'by_email'
+      @enquiries = Enquiry.where(email: params[:email])
+      render json: @enquiries
+    else
+      @enquiry = Enquiry.find(params[:id])
+      render json: @enquiry
+    end
   end
 
   # POST /enquiries
