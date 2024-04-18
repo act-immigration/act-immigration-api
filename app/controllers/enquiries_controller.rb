@@ -9,20 +9,27 @@ class EnquiriesController < ApplicationController
   end
 
   # GET /enquiries/1
+  # GET /enquiries/1
   def show
     if params[:id] == 'by_email'
-      @enquiries = Enquiry.where(email: params[:email])
-      render json: @enquiries
+      contact_info = ContactInfo.find_by(email: params[:email])
+      if contact_info
+        @enquiries = contact_info.enquiries
+        render json: @enquiries.as_json(include: { documents: { only: [:file_path] } })
+      else
+        render json: { error: 'No enquiries found for this email' }, status: :not_found
+      end
     else
       @enquiry = Enquiry.find(params[:id])
-      if @enquiry.document.attached?
-      render json: @enquiry.as_json.merge(document_url: url_for(@document.document))
-    else
-      render json: @document_url.as_json.merge(document_url: nil)
+      if @enquiry.documents.attached?
+        render json: @enquiry.as_json(include: { documents: { only: [:file_path] } })
+      else
+        render json: @enquiry
+      end
     end
   end
-  end
 
+  # POST /enquiries
   # POST /enquiries
   def create
     # Find or create a ContactInfo based on the email
@@ -31,11 +38,17 @@ class EnquiriesController < ApplicationController
       contact.surname = params[:enquiry][:surname]
       contact.phonenumber = params[:enquiry][:phonenumber]
     end
+
     # Build the enquiry with the provided parameters and associate it with the contact_info
     @enquiry = contact_info.enquiries.new(enquiry_params.except(:document_upload))
 
     # Handle file upload
-    @enquiry.document_upload.attach(enquiry_params[:document_upload]) if enquiry_params[:document_upload].present?
+    if params[:enquiry][:document_upload].present?
+      # Attach the uploaded file to the enquiry
+      params[:enquiry][:document_upload].each do |file|
+        @enquiry.documents.attach(file)
+      end
+    end
 
     if @enquiry.save
       render json: @enquiry, status: :created, location: @enquiry
@@ -82,12 +95,6 @@ class EnquiriesController < ApplicationController
     @enquiry = Enquiry.find(params[:id])
   end
 
-  # Only allow a list of trusted parameters through.
-  def enquiry_params
-    params.require(:enquiry).permit(:name, :surname, :phonenumber, :email, :gender, :dob, :maritalStatus, :residentialAddress, :immigrationStatus, :entryDate, :passportNumber, :referenceNumber,
-                                    :serviceType, :elaborate, :document_upload)
-  end
-
   def enquiry_with_documents(enquiry)
     if enquiry&.document_upload&.attached?
       redirect_to rails_blob_path(enquiry.document_upload, disposition: 'attachment')
@@ -106,5 +113,11 @@ class EnquiriesController < ApplicationController
     else
       render json: { error: 'User not found' }, status: :not_found
     end
+  end
+
+  # Only allow a list of trusted parameters through.
+  def enquiry_params
+    params.require(:enquiry).permit(:name, :surname, :phonenumber, :email, :gender, :dob, :maritalStatus, :residentialAddress, :immigrationStatus, :entryDate, :passportNumber, :referenceNumber,
+                                    :serviceType, :elaborate, :document_upload)
   end
 end

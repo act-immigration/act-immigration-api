@@ -3,6 +3,17 @@
 class DocumentsController < ApplicationController
   before_action :document, only: %i[show update destroy]
 
+  def index
+    @documents = Document.all.map do |document|
+      {
+        id: document.id,
+        url: rails_blob_url(document.file)
+      }
+    end
+
+    render json: @documents
+  end
+
   def show
     @document = Document.find(params[:id])
   end
@@ -15,35 +26,27 @@ class DocumentsController < ApplicationController
     @document.destroy
   end
 
-  def index
-    user = User.find(session[:user_id]) # replace with your method of fetching the current user
-    documents = Document.where(documentable: user)
-    render json: documents
-  end
-
   def upload_document
     puts "Current User: #{current_user.inspect}" # Debugging statement
     uploaded_file = params[:file]
-    @document = Document.new(document_params.merge(user_email: current_user.email))
-    # Attach the file to the document using Active Storage
-    @document.file_path.attach(uploaded_file)
+    @document = Document.new(file_path: uploaded_file)
+
     if @document.save
-      render json: { message: 'Document uploaded successfully' }, status: :created
+    render json: @document, status: :created
     else
-      render json: { error: 'Failed to upload document' }, status: :unprocessable_entity
+    render json: @document.errors, status: :unprocessable_entity
     end
   end
 
   def upload
-    @document = Document.new(document_params)
-    if @document.save
-      render json: @document, status: :created
-    else
-      render json: @document.errors, status: :unprocessable_entity
-    end
+  @document = Document.new(document_params)
+
+  if @document.save
+    render json: @document, status: :created
+  else
+    render json: @document.errors, status: :unprocessable_entity
   end
-
-
+  end
 
   def documents_by_email
     email = params[:email]
@@ -61,7 +64,7 @@ class DocumentsController < ApplicationController
   private
 
   def document_params
-    params.permit(:file, :email)
+   params.permit(:file)
   end
 
   def document
