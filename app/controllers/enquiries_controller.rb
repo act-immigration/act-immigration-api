@@ -1,14 +1,11 @@
 class EnquiriesController < ApplicationController
   before_action :set_enquiry, only: %i[show update destroy]
-
   # GET /enquiries
   def index
     @enquiries = Enquiry.all
-
     render json: @enquiries
   end
 
-  # GET /enquiries/1
   # GET /enquiries/1
   def show
     if params[:id] == 'by_email'
@@ -30,40 +27,44 @@ class EnquiriesController < ApplicationController
   end
 
   # POST /enquiries
-  # POST /enquiries
   def create
-    # Find or create a ContactInfo based on the email
-    contact_info = ContactInfo.find_or_create_by(email: params[:enquiry][:email]) do |contact|
-      contact.name = params[:enquiry][:name]
-      contact.surname = params[:enquiry][:surname]
-      contact.phonenumber = params[:enquiry][:phonenumber]
-    end
+  puts "Received params: #{params.inspect}"
+  contact_info_params = JSON.parse(params[:enquiry].delete(:contact_info))
+  document_uploads = params[:enquiry].delete(:documentUpload)
 
-    # Build the enquiry with the provided parameters and associate it with the contact_info
-    @enquiry = contact_info.enquiries.new(enquiry_params.except(:document_upload))
-
-    # Handle file upload
-    if params[:enquiry][:document_upload].present?
-      # Attach the uploaded file to the enquiry
-      params[:enquiry][:document_upload].each do |file|
-        @enquiry.documents.attach(file)
-      end
-    end
-
-    if @enquiry.save
-      render json: @enquiry, status: :created, location: @enquiry
-    else
-      render json: @enquiry.errors, status: :unprocessable_entity
-    end
+  # Find or create a ContactInfo based on the email
+  contact_info = ContactInfo.find_or_create_by(email: contact_info_params["email"]) do |contact|
+    contact.name = contact_info_params["name"]
+    contact.surname = contact_info_params["surname"]
+    contact.phonenumber = contact_info_params["phonenumber"]
   end
 
-  # PATCH/PUT /enquiries/1
-  def update
-    if @enquiry.update(enquiry_params)
-      render json: @enquiry
+  @enquiry = contact_info.enquiries.new(enquiry_params)
+
+  # Save @enquiry before attaching files
+  if @enquiry.save
+    # Attach uploaded files to the enquiry
+    if document_uploads.present?
+      document_uploads.each do |file|
+        # Get the file's IO stream and original filename
+        io = file.tempfile
+        filename = file.original_filename
+
+        # Create an ActiveStorage attachment and associate it with the enquiry
+        @enquiry.documents.attach(io: io, filename: filename)
+
+        # Log the attachment
+        Rails.logger.info "Document attached: #{filename}"
+      end
     else
-      render json: @enquiry.errors, status: :unprocessable_entity
+      Rails.logger.info "No documents to attach"
     end
+
+    render json: @enquiry, status: :created, location: @enquiry
+  else
+    Rails.logger.info "Enquiry not saved: #{@enquiry.errors.full_messages.join(', ')}"
+    render json: @enquiry.errors, status: :unprocessable_entity
+  end
   end
 
   # DELETE /enquiries/1
@@ -88,6 +89,29 @@ class EnquiriesController < ApplicationController
     end
   end
 
+  def upload
+    # Extract document upload parameters from the request
+    document_params = params.require(:enquiry).permit(document_upload: [])
+    # Create a new document object from file upload
+    document = Document.new(document_params)
+    # Save the document to the database on upload
+    if document.save
+      render json: { message: 'Document uploaded successfully' }, status: :ok
+    else
+      render json: { error: 'Failed to upload document' }, status: :unprocessable_entity
+    end
+  end
+
+  def update
+    @enquiry = Enquiry.find(params[:id])
+
+    if @enquiry.update(enquiry_params)
+      render json: @enquiry
+    else
+      render json: @enquiry.errors, status: :unprocessable_entity
+    end
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.
@@ -109,6 +133,7 @@ class EnquiriesController < ApplicationController
     user = User.find_by(email: params[:email])
     if user
       documents = Document.where(user_id: user.id)
+      documents = rails_blob_path(user.documents, only_path: true) if user.documents.attached?
       render json: documents
     else
       render json: { error: 'User not found' }, status: :not_found
@@ -118,6 +143,6 @@ class EnquiriesController < ApplicationController
   # Only allow a list of trusted parameters through.
   def enquiry_params
     params.require(:enquiry).permit(:name, :surname, :phonenumber, :email, :gender, :dob, :maritalStatus, :residentialAddress, :immigrationStatus, :entryDate, :passportNumber, :referenceNumber,
-                                    :serviceType, :elaborate, :document_upload)
+                                    :serviceType, :elaborate, :contact_info, document_upload: [])
   end
 end

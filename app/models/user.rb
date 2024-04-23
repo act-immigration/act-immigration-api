@@ -7,4 +7,5 @@ class User < ApplicationRecord
   has_many :enquiries
   has_many :appointments
   has_one :profile
+  has_one_attached :image
 end
